@@ -13,12 +13,14 @@ Each cell has 8 neighbours horizontally, vertically, or diagonally adjacent, and
 
 Instructions for my version of the game
 
+The game has been developed in Open Frameworks using C++ Language.
 Once running the app there is a welcome screen giving the option to start the game by pressing 1 in the keyboard.
 Once starting the game we can see the cells interacting with each other.
 Each cell is 10px in size but they can be either zoomed in or out by using the slider in the top left of the screen.
 To restart the game press the “R” key.
-To clear the grid press “C” key
-To quit to the welcome screen press “Q” key
+To clear the grid press “C” key.
+To quit to the welcome screen press “Q” key.
+
 Have fun!
  
 
