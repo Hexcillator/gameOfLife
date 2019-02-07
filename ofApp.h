@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
+//this is the maximum number of columns and rows the grid will hold
 #define COLS 1024
 #define ROWS 768
 
@@ -18,11 +19,12 @@ public:
     int size;
     
     int board[COLS][ROWS];
+    //updated grid
     int next[COLS][ROWS];
     int neighbours=0;
     int columns;
     int rows;
-    
+    //gui control
     ofxFloatSlider zoom;
     ofxPanel gui;
     

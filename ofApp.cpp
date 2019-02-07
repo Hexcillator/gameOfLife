@@ -19,12 +19,12 @@ void ofApp::setup(){
     rows=(int)ofGetHeight()/size;
     
     
-    //controls interactively cells size
+    //slide that controls interactively cells size
     gui.setup();
     gui.add(zoom.setup("Zoom in/out", 10, 1, 30));
     
     
-    //produces a random array of live and dead cells
+    //produces a random array of live and dead cells as an initial state
     for (int x=1; x<columns; x++) {
         for (int y=1; y<rows; y++) {
             board[x][y] = int(ofRandom(2));
@@ -35,23 +35,45 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
+    //counters created to display a flashing title in state 0
+    counter++;
+    
+    if(counter % 5 == 0){
+        if(counter2 > 4){
+            counter2 = 0;
+            
+        }else if(counter2 < 4){
+            flashing = true;
+        }else{
+            flashing = false;
+        }
+        counter2++;
+    }
+    
+    
+    //we can replace a fixed size if we don't want the slider
     size=zoom;
+    
     //create a 2d grid
     for (int x = 1; x < columns; x++) {
         for (int y = 1; y < rows; y++) {
             
             neighbours = 0;
-            //checks each cell in canvas
+            //checks each neighbour cell
             for(int i = -1;i <= 1; i++){
                 for(int j = -1; j <= 1; j++){
-                    //join edges making an infinite canvas that extends to any of the 4 edges
-                    int col = (x+i+columns) % columns;
+                    /*asumming the game is set in an infinite two-dimensional grid all 4 edges are wrapped to create a kind of infinity. For example,
+                     cells 0 on the X axis will be neighbour of the cells in the last column, same goes for cells 0 on the Y axis, they automatically are considered neighbours of the last row of the grid.
+                     
+                     */
+                    
+                    int col = (x+i+columns) % columns;//The total of columns is also added to avoid negative numbers and join the grid to the left
                     int row = (y+j+rows) % rows;
+                    
                     neighbours+=board[col][row];
-                    
-                    
                 }
             }
+            
             //subtract main cell from the sum
             neighbours-=board[x][y];
             
@@ -81,33 +103,23 @@ void ofApp::update(){
         }
         
     }
+    //update the grid
     for (int x = 1; x<columns; x++) {
         for (int y = 1; y <rows; y++) {
             board[x][y] = next[x][y];
-        }}
-    
-    
-    //counters created to have a flashing title in state 0
-    counter++;
-    
-    cout<<counter<<endl;
-    if(counter % 5 == 0){
-        if(counter2 > 4){
-            counter2 = 0;
-            
-        }else if(counter2 < 4){
-            flashing = true;
-        }else{
-            flashing = false;
         }
-        counter2++;
+        
     }
+    
+    
+
 }
 
 //--------------------------------------------------------------
 
 
 void ofApp::draw(){
+    
     switch(state){
         case 0:
             //welcome screen
@@ -143,6 +155,8 @@ void ofApp::draw(){
                     }else{
                         ofSetColor(0);
                         ofNoFill();
+                        
+                        /*whenever we zoom out the stroke of the cells stays the original size to the point of not letting us see the cells properly so I decided to map the zoom value to a grayscale to match the background color and create a smoother color transition. */
                         int color;
                         int stroke = ofMap(size, 1, 30, 0, 255);
                         ofSetColor(stroke);
@@ -160,6 +174,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    
     //keys controlling the game
     
     if(key == '1' ){
@@ -171,12 +186,14 @@ void ofApp::keyPressed(int key){
         if( key == 'r'||key == 'R' ){
             for (int x=1; x<columns; x++) {
                 for (int y=1; y<rows; y++) {
+                    //resets grid to random seeding
                     board[x][y] = int(ofRandom(2));
                 }
             }
         }else if( key == 'c'||key == 'C' ){
             for (int x=1; x<columns; x++) {
                 for (int y=1; y<rows; y++) {
+                    //clears grid
                     board[x][y] = 0;
                 }
             }
@@ -186,6 +203,7 @@ void ofApp::keyPressed(int key){
     }
     
 }
+
 
 
 

@@ -3,6 +3,7 @@
 
 //========================================================================
 int main( ){
+    //size of screen
 	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context
 
     
