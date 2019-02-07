@@ -24,7 +24,7 @@ public:
     int neighbours=0;
     int columns;
     int rows;
-    //gui control
+    //gui slider control
     ofxFloatSlider zoom;
     ofxPanel gui;
     

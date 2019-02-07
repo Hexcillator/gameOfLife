@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    ofSetFrameRate(60);
+    ofSetFrameRate(50);
     ofBackground(0);
     
     //loads font file and sets size
